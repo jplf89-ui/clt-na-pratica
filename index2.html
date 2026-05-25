@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Advertência, Suspensão e Justa Causa do jeito certo. Segurança jurídica para decisões disciplinares que não podem errar." />
+  <title>CLT na Prática para Empresas — Rafael Nassif</title>
+  <link rel="icon" type="image/png" href="images/icone.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:       #0a0f18;
+      --ink-mid:   #111926;
+      --ink-soft:  #1a2535;
+      --gold:      #b8943a;
+      --gold-lt:   #d4ab52;
+      --gold-dim:  rgba(184,148,58,0.15);
+      --cream:     #f0ead8;
+      --off:       #e8e0cc;
+      --muted:     #6b7d94;
+      --line:      rgba(184,148,58,0.18);
+      --white:     #ffffff;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--ink);
+      color: var(--off);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ─── GRAIN OVERLAY ─── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 6%;
+      background: rgba(10,15,24,0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .nav-brand img { height: 32px; width: 32px; object-fit: contain; opacity: 0.9; }
+    .nav-brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 600;
+      color: var(--cream); letter-spacing: 0.02em; line-height: 1.1;
+    }
+    .nav-brand-name small {
+      display: block; font-family: 'Outfit', sans-serif;
+      font-size: 0.58rem; font-weight: 400;
+      color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .nav-btn {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--ink); background: var(--gold);
+      padding: 11px 26px; border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-btn:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 55% 45%;
+      position: relative; overflow: hidden;
+    }
+
+    /* left half — dark with text */
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 140px 8% 80px 6%;
+      position: relative; z-index: 2;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute; top: 0; right: -1px; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    }
+
+    /* right half — photo */
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to right, var(--ink) 0%, transparent 35%),
+                  linear-gradient(to top, var(--ink) 0%, transparent 30%);
+    }
+    .hero-right img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: top center;
+      filter: grayscale(20%) contrast(1.05);
+    }
+
+    /* decorative roman numeral */
+    .hero-deco {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 10rem; font-weight: 700; line-height: 1;
+      color: rgba(184,148,58,0.06);
+      position: absolute; top: 50px; right: 5%;
+      z-index: 3; user-select: none; letter-spacing: -0.04em;
+    }
+
+    .hero-overline {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 30px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-overline::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--gold);
+    }
+    .hero-overline span {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 700; line-height: 1.05;
+      color: var(--cream); margin-bottom: 10px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--gold);
+    }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      font-weight: 400; font-style: italic;
+      color: var(--muted); margin-bottom: 36px;
+      animation: fadeUp 0.7s 0.18s ease both;
+    }
+    .hero-body {
+      font-size: 0.97rem; font-weight: 300; line-height: 1.8;
+      color: rgba(232,224,204,0.7); max-width: 460px; margin-bottom: 48px;
+      animation: fadeUp 0.7s 0.26s ease both;
+    }
+    .hero-body strong { color: var(--off); font-weight: 500; }
+
+    .hero-ctas {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.34s ease both;
+    }
+    .btn-main {
+      display: inline-block; text-decoration: none;
+      background: var(--gold); color: var(--ink);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 17px 40px; border-radius: 2px;
+      box-shadow: 0 4px 24px rgba(184,148,58,0.3);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-main:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(184,148,58,0.4); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; color: var(--muted);
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--cream); }
+    .btn-ghost::after { content: '↓'; }
+
+    /* ─── URGENCY BAR ─── */
+    .urgency-bar {
+      background: var(--gold);
+      padding: 14px 6%; text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .urgency-bar p {
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--ink); text-transform: uppercase;
+    }
+    .urgency-bar strong { font-weight: 700; }
+
+    /* ─── PROBLEM SECTION ─── */
+    .problem {
+      padding: 110px 6%;
+      background: var(--ink-mid);
+      position: relative; overflow: hidden;
+    }
+    .problem::before {
+      content: 'ERRO';
+      position: absolute; bottom: -40px; right: -20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18rem; font-weight: 700; line-height: 1;
+      color: rgba(184,148,58,0.03); user-select: none;
+      pointer-events: none;
+    }
+
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+    }
+    .section-tag::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold); }
+
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+    .problem-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 700;
+      color: var(--cream); line-height: 1.15;
+    }
+    .problem-heading em { font-style: italic; color: var(--gold); }
+
+    .problem-stat {
+      margin-top: 40px; padding: 32px;
+      border: 1px solid var(--line);
+      background: rgba(184,148,58,0.04);
+      position: relative;
+    }
+    .problem-stat::before {
+      content: '"'; position: absolute; top: -24px; left: 24px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem; color: var(--gold); line-height: 1;
+    }
+    .stat-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem; font-weight: 700; color: var(--gold); line-height: 1;
+    }
+    .stat-desc {
+      font-size: 0.95rem; color: var(--off); line-height: 1.65; margin-top: 12px;
+    }
+    .stat-desc strong { color: var(--white); }
+
+    .problem-items { display: flex; flex-direction: column; gap: 0; margin-top: 8px; }
+    .prob-item {
+      display: flex; align-items: flex-start; gap: 20px;
+      padding: 24px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .prob-item:last-child { border-bottom: none; }
+    .prob-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(184,148,58,0.08); border: 1px solid var(--line);
+      border-radius: 2px;
+    }
+    .prob-icon img { width: 28px; height: 28px; object-fit: contain; }
+    .prob-text h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 600; color: var(--cream); margin-bottom: 4px;
+    }
+    .prob-text p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+    /* ─── SOLUTION STATEMENT ─── */
+    .statement {
+      padding: 100px 6%;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative;
+    }
+    .statement-inner { max-width: 780px; }
+    .statement-line {
+      width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--gold));
+      margin: 0 auto 32px;
+    }
+    .statement-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400;
+      font-style: italic; line-height: 1.45; color: var(--cream);
+    }
+    .statement-text strong { font-style: normal; font-weight: 700; color: var(--gold); }
+    .statement-line-bottom {
+      width: 1px; height: 60px; background: linear-gradient(to top, transparent, var(--gold));
+      margin: 32px auto 0;
+    }
+
+    /* ─── LEARN SECTION ─── */
+    .learn {
+      padding: 110px 6%;
+      background: var(--ink-mid);
+    }
+    .learn-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .learn-visual { position: relative; }
+    .learn-visual img {
+      width: 100%; max-width: 420px;
+      filter: drop-shadow(0 30px 70px rgba(0,0,0,0.7));
+      position: relative; z-index: 1;
+    }
+    .learn-visual::before {
+      content: '';
+      position: absolute; top: -20px; left: -20px; right: 20px; bottom: 20px;
+      border: 1px solid var(--line); border-radius: 2px; z-index: 0;
+    }
+    .learn-visual-badge {
+      position: absolute; bottom: -16px; right: -16px; z-index: 2;
+      background: var(--gold); color: var(--ink);
+      padding: 16px 20px; border-radius: 2px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 700; line-height: 1.2;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .learn-visual-badge span { display: block; font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 2px; }
+
+    .learn-content .section-tag { margin-bottom: 16px; }
+    .learn-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700;
+      color: var(--cream); line-height: 1.15; margin-bottom: 36px;
+    }
+    .learn-items { list-style: none; display: flex; flex-direction: column; }
+    .learn-item {
+      display: grid; grid-template-columns: 28px 1fr;
+      gap: 16px; padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      align-items: start;
+    }
+    .learn-item:last-child { border-bottom: none; }
+    .learn-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; font-weight: 600; color: var(--gold);
+      padding-top: 2px; letter-spacing: 0.05em;
+    }
+    .learn-item-text {
+      font-size: 0.95rem; color: var(--off); line-height: 1.6; font-weight: 300;
+    }
+    .learn-item-text strong { color: var(--cream); font-weight: 500; }
+
+    /* ─── CTA MID ─── */
+    .cta-mid {
+      padding: 90px 6%; background: var(--ink);
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 40px; align-items: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .cta-mid-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600;
+      color: var(--cream); line-height: 1.25;
+    }
+    .cta-mid-text em { font-style: italic; color: var(--gold); }
+    .cta-mid-sub {
+      font-size: 0.92rem; color: var(--muted); margin-top: 10px;
+      font-weight: 300; line-height: 1.65;
+    }
+
+    /* ─── BIO ─── */
+    .bio {
+      padding: 110px 6%;
+      background: var(--ink-mid);
+      position: relative; overflow: hidden;
+    }
+    .bio::after {
+      content: 'RCN';
+      position: absolute; bottom: -60px; right: -30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20rem; font-weight: 700;
+      color: rgba(184,148,58,0.025); user-select: none; pointer-events: none;
+      line-height: 1;
+    }
+    .bio-inner {
+      display: grid; grid-template-columns: 400px 1fr; gap: 80px; align-items: start;
+    }
+    .bio-photo { position: relative; }
+    .bio-photo img {
+      width: 100%; border-radius: 2px;
+      filter: grayscale(15%) contrast(1.05);
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+    }
+    .bio-photo-frame {
+      position: absolute; top: 20px; left: 20px; right: -20px; bottom: -20px;
+      border: 1px solid var(--line); border-radius: 2px; z-index: -1;
+    }
+    .bio-overline { margin-bottom: 14px; }
+    .bio-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem); font-weight: 700;
+      color: var(--cream); line-height: 1.1; margin-bottom: 6px;
+    }
+    .bio-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic; color: var(--gold);
+      margin-bottom: 32px; font-weight: 400;
+    }
+    .bio-body {
+      font-size: 0.95rem; color: rgba(232,224,204,0.75);
+      line-height: 1.8; font-weight: 300; margin-bottom: 14px;
+    }
+    .bio-body strong { color: var(--off); font-weight: 500; }
+    .bio-divider {
+      width: 40px; height: 1px; background: var(--gold);
+      margin: 32px 0;
+    }
+    .bio-creds { display: flex; flex-direction: column; gap: 0; }
+    .bio-cred {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.87rem; color: var(--muted); font-weight: 300; line-height: 1.5;
+    }
+    .bio-cred:last-child { border-bottom: none; }
+    .bio-cred::before { content: '—'; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+    .bio-cred strong { color: var(--off); font-weight: 400; }
+    .bio-quote {
+      margin-top: 36px; padding: 28px 32px;
+      background: rgba(184,148,58,0.05);
+      border-left: 2px solid var(--gold);
+    }
+    .bio-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-style: italic;
+      color: var(--cream); line-height: 1.65;
+    }
+
+    /* ─── ACCESS / PRICING ─── */
+    .access {
+      padding: 110px 6%;
+      background: var(--ink);
+      display: grid; grid-template-columns: 1fr 420px; gap: 80px; align-items: start;
+    }
+    .access-left .section-tag { margin-bottom: 20px; }
+    .access-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700;
+      color: var(--cream); line-height: 1.2; margin-bottom: 20px;
+    }
+    .access-body {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.75;
+      font-weight: 300; margin-bottom: 36px; max-width: 460px;
+    }
+    .access-features { display: flex; flex-direction: column; gap: 0; }
+    .access-feat {
+      display: flex; align-items: center; gap: 18px;
+      padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .access-feat:last-child { border-bottom: none; }
+    .access-feat img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; opacity: 0.85; }
+    .access-feat span { font-size: 0.93rem; color: var(--off); font-weight: 300; }
+    .access-feat span strong { color: var(--cream); font-weight: 500; }
+
+    .access-card {
+      background: var(--ink-soft);
+      border: 1px solid var(--line);
+      padding: 48px 40px;
+      position: relative; overflow: hidden;
+    }
+    .access-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .access-card-label {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+    }
+    .access-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--cream); margin-bottom: 6px;
+    }
+    .access-card-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 36px; line-height: 1.55; }
+    .access-card-items { list-style: none; margin-bottom: 36px; }
+    .access-card-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.88rem; color: var(--off); font-weight: 300;
+    }
+    .access-card-item:last-child { border-bottom: none; }
+    .access-card-item::before {
+      content: '✓'; width: 20px; height: 20px;
+      background: var(--gold-dim); border: 1px solid rgba(184,148,58,0.3);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; color: var(--gold); flex-shrink: 0;
+      line-height: 20px; text-align: center;
+    }
+    .access-card .btn-main { width: 100%; text-align: center; display: block; }
+    .access-card-note { text-align: center; font-size: 0.73rem; color: var(--muted); margin-top: 14px; }
+
+    /* ─── CLOSING ─── */
+    .closing {
+      padding: 100px 6%;
+      background: var(--ink-mid);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .closing-inner { max-width: 700px; margin: 0 auto; }
+    .closing-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 600;
+      color: var(--cream); line-height: 1.3; margin-bottom: 16px;
+    }
+    .closing-text em { font-style: italic; color: var(--gold); }
+    .closing-sub {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.7;
+      font-weight: 300; margin-bottom: 40px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 32px 6%;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    footer p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1000px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 130px 6% 60px; }
+      .hero-left::after { display: none; }
+      .hero-right { height: 420px; }
+      .hero-deco { display: none; }
+      .problem-grid { grid-template-columns: 1fr; gap: 48px; }
+      .learn-inner { grid-template-columns: 1fr; }
+      .learn-visual { display: flex; justify-content: center; }
+      .learn-visual img { max-width: 300px; }
+      .cta-mid { grid-template-columns: 1fr; }
+      .bio-inner { grid-template-columns: 1fr; }
+      .bio-photo { max-width: 300px; }
+      .access { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 14px 4%; }
+      .hero-left { padding: 110px 4% 50px; }
+      .problem, .learn, .bio, .access, .closing { padding: 72px 4%; }
+      .cta-mid { padding: 60px 4%; }
+      .access-card { padding: 36px 24px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <img src="images/icone.png" alt="CLT na Prática" />
+    <div class="nav-brand-name">
+      CLT na Prática
+      <small>para Empresas</small>
+    </div>
+  </div>
+  <a href="https://pay.hotmart.com/A104937550W?off=tmjwar00&hotfeature=51" class="nav-btn" target="_blank" rel="noopener">Acessar Módulo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-overline">
+      <span>Módulo Especializado</span>
+    </div>
+    <h1 class="hero-title">
+      A decisão<br/>
+      disciplinar<br/>
+      <em>que não pode</em><br/>
+      errar.
+    </h1>
+    <p class="hero-subtitle">Advertência, Suspensão e Justa Causa — com método e segurança jurídica.</p>
+    <p class="hero-body">
+      Cada penalidade aplicada sem critério é uma ação trabalhista esperando acontecer.
+      Aprenda a exercer o poder disciplinar <strong>da forma que a lei exige</strong> — com prova, processo e decisão que sustenta na Justiça.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://pay.hotmart.com/A104937550W?off=tmjwar00&hotfeature=51" class="btn-main" target="_blank" rel="noopener">Quero Acessar o Módulo</a>
+      <a href="#modulo" class="btn-ghost">Ver o conteúdo</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="images/IMG-SESSAODOR3.png" alt="Rafael Carmezim Nassif" />
+  </div>
+  <div class="hero-deco">I</div>
+</section>
+
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  <p>⚖️ &nbsp; <strong>8 em cada 10</strong> ações que discutem justa causa conseguem revertê-la na Justiça. &nbsp;|&nbsp; Seu próximo caso pode ser um deles.</p>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problema">
+  <div class="problem-grid">
+    <div class="reveal">
+      <div class="section-tag">O risco real</div>
+      <h2 class="problem-heading">
+        A maioria das empresas<br/>
+        aplica penalidades<br/>
+        <em>no improviso.</em>
+      </h2>
+      <div class="problem-stat">
+        <div class="stat-big">8/10</div>
+        <p class="stat-desc">Das ações trabalhistas que discutem justa causa <strong>são revertidas</strong>. O problema quase sempre é o mesmo: falta de método, prova e critério.</p>
+      </div>
+    </div>
+    <div class="problem-items reveal reveal-delay-1">
+      <div class="prob-item">
+        <div class="prob-icon"><img src="images/ico-pt.png" alt="" /></div>
+        <div class="prob-text">
+          <h4>Processos trabalhistas evitáveis</h4>
+          <p>Decisões sem documentação adequada são o caminho mais curto para a Vara do Trabalho.</p>
+        </div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-icon"><img src="images/ico-reversao.png" alt="" /></div>
+        <div class="prob-text">
+          <h4>Justa causa anulada pelo juiz</h4>
+          <p>Sem os requisitos legais presentes, a dispensa por justa causa vira dispensa sem justa causa — com todos os encargos.</p>
+        </div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-icon"><img src="images/ico-indenizacao.png" alt="" /></div>
+        <div class="prob-text">
+          <h4>Indenizações desnecessárias</h4>
+          <p>O custo de uma decisão mal conduzida vai muito além do passivo trabalhista.</p>
+        </div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-icon"><img src="images/ico-disciplina.png" alt="" /></div>
+        <div class="prob-text">
+          <h4>Perda de autoridade disciplinar</h4>
+          <p>Quando a empresa não aplica penalidades com consistência, o controle interno se dissolve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATEMENT -->
+<div class="statement">
+  <div class="statement-inner">
+    <div class="statement-line"></div>
+    <p class="statement-text reveal">
+      "Não se trata de <strong>conhecer a lei</strong>.<br/>
+      Trata-se de saber <strong>aplicá-la com critério</strong>,<br/>
+      na hora certa, com a prova certa —<br/>
+      sem dar margem para reversão."
+    </p>
+    <div class="statement-line-bottom"></div>
+  </div>
+</div>
+
+<!-- LEARN -->
+<section class="learn" id="modulo">
+  <div class="learn-inner">
+    <div class="learn-visual reveal">
+      <img src="images/imgh-cel2.png" alt="Módulo CLT na Prática" />
+      <div class="learn-visual-badge">
+        <span>Acesso imediato</span>
+        Módulo Completo
+      </div>
+      <div class="learn-visual-frame" style="position:absolute;top:-16px;left:-16px;right:16px;bottom:16px;border:1px solid rgba(184,148,58,0.2);border-radius:2px;z-index:0;pointer-events:none;"></div>
+    </div>
+    <div class="learn-content">
+      <div class="section-tag reveal">O que você vai aprender</div>
+      <h2 class="learn-heading reveal">
+        Um método completo para decisões disciplinares que sustentam.
+      </h2>
+      <ul class="learn-items">
+        <li class="learn-item reveal reveal-delay-1">
+          <span class="learn-num">01</span>
+          <span class="learn-item-text"><strong>Poder disciplinar do empregador</strong> — como exercê-lo dentro dos limites que a CLT impõe, sem abusos e sem omissões.</span>
+        </li>
+        <li class="learn-item reveal reveal-delay-1">
+          <span class="learn-num">02</span>
+          <span class="learn-item-text"><strong>Gradação de penalidades</strong> — quando advertir, quando suspender e quando a justa causa é a única resposta juridicamente coerente.</span>
+        </li>
+        <li class="learn-item reveal reveal-delay-2">
+          <span class="learn-num">03</span>
+          <span class="learn-item-text"><strong>Requisitos legais da justa causa</strong> — o que precisa estar presente para que a decisão seja irretocável perante a Justiça do Trabalho.</span>
+        </li>
+        <li class="learn-item reveal reveal-delay-2">
+          <span class="learn-num">04</span>
+          <span class="learn-item-text"><strong>Erros que geram nulidades</strong> — os equívocos mais comuns que transformam uma decisão correta em um passivo trabalhista.</span>
+        </li>
+        <li class="learn-item reveal reveal-delay-3">
+          <span class="learn-num">05</span>
+          <span class="learn-item-text"><strong>Hipóteses de justa causa</strong> — como identificar e caracterizar corretamente cada uma das situações previstas no art. 482 da CLT.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA MID -->
+<div class="cta-mid">
+  <div>
+    <p class="cta-mid-text">Resgate o controle disciplinar da sua empresa com <em>método, critério e segurança jurídica.</em></p>
+    <p class="cta-mid-sub">Cada decisão disciplinar pode ser a diferença entre autoridade e passivo. Este módulo ensina como fazer certo — da primeira advertência à justa causa.</p>
+  </div>
+  <div>
+    <a href="https://pay.hotmart.com/A104937550W?off=tmjwar00&hotfeature=51" class="btn-main" target="_blank" rel="noopener">Quero Acessar Agora</a>
+  </div>
+</div>
+
+<!-- BIO -->
+<section class="bio">
+  <div class="bio-inner">
+    <div class="bio-photo reveal">
+      <img src="images/IMG-SESSAODOR1.png" alt="Rafael Carmezim Nassif" />
+      <div class="bio-photo-frame"></div>
+    </div>
+    <div>
+      <div class="bio-overline reveal"><div class="section-tag">Quem vai te ensinar</div></div>
+      <h2 class="bio-name reveal">Rafael Carmezim Nassif</h2>
+      <p class="bio-title reveal">Advogado trabalhista · Professor · Consultor empresarial</p>
+      <p class="bio-body reveal">
+        Com mais de <strong>15 anos de atuação na advocacia trabalhista</strong> e participação em mais de <strong>1.000 processos</strong>, Rafael desenvolveu uma metodologia voltada exclusivamente para quem precisa tomar decisões rápidas — mas não pode errar.
+      </p>
+      <p class="bio-body reveal">
+        Não é teoria. É a prática de quem já esteve nos dois lados: <strong>defendendo empresas e entendendo como os erros acontecem.</strong>
+      </p>
+      <div class="bio-divider reveal"></div>
+      <div class="bio-creds reveal">
+        <div class="bio-cred">Mestre em Direito pela <strong>PUC-PR</strong></div>
+        <div class="bio-cred">Especialista em Direito e Processo do Trabalho — <strong>EMATRA IX</strong></div>
+        <div class="bio-cred">Formação internacional em Direito do Trabalho — <strong>Universidade La Sapienza, Roma</strong></div>
+        <div class="bio-cred">Professor de graduação e pós-graduação há mais de <strong>10 anos</strong></div>
+        <div class="bio-cred">Coordenador acadêmico na área trabalhista</div>
+      </div>
+      <div class="bio-quote reveal">
+        <p>"Meu objetivo é traduzir o Direito do Trabalho para uma linguagem clara, prática e aplicável no dia a dia — sem juridiquês, sem complicação, sem margem para erro."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="access" id="acesso">
+  <div class="access-left">
+    <div class="section-tag reveal">O que está incluso</div>
+    <h2 class="access-heading reveal">Tudo que você precisa para decidir com segurança.</h2>
+    <p class="access-body reveal">Um módulo direto ao ponto, construído para quem não tem tempo de estudar mas não pode errar nas decisões que importam.</p>
+    <div class="access-features reveal">
+      <div class="access-feat">
+        <img src="images/ico-videoaula.png" alt="" />
+        <span><strong>Videoaulas objetivas</strong> — em linguagem jurídica aplicada, sem rodeios</span>
+      </div>
+      <div class="access-feat">
+        <img src="images/ico-alvo.png" alt="" />
+        <span><strong>Foco em decisões reais</strong> — situações do dia a dia de quem gere pessoas</span>
+      </div>
+      <div class="access-feat">
+        <img src="images/ico-certificado.png" alt="" />
+        <span><strong>Certificado de conclusão</strong> — reconhecimento formal do aprendizado</span>
+      </div>
+      <div class="access-feat">
+        <img src="images/ico-acesso.png" alt="" />
+        <span><strong>Acesso imediato</strong> — disponível logo após a confirmação do pagamento</span>
+      </div>
+    </div>
+  </div>
+  <div class="access-card reveal">
+    <div class="access-card-label">Módulo Exclusivo</div>
+    <div class="access-card-title">Advertência, Suspensão<br/>e Justa Causa</div>
+    <p class="access-card-desc">Do jeito certo. Com método. Com segurança jurídica.</p>
+    <ul class="access-card-items">
+      <li class="access-card-item">Videoaulas em linguagem prática</li>
+      <li class="access-card-item">Critérios para cada tipo de penalidade</li>
+      <li class="access-card-item">Requisitos legais da justa causa</li>
+      <li class="access-card-item">Como evitar nulidades e passivos</li>
+      <li class="access-card-item">Certificado de conclusão</li>
+      <li class="access-card-item">Acesso imediato após o pagamento</li>
+    </ul>
+    <a href="https://pay.hotmart.com/A104937550W?off=tmjwar00&hotfeature=51" class="btn-main" target="_blank" rel="noopener">Quero Acessar o Módulo</a>
+    <p class="access-card-note">Pagamento processado com segurança pela Hotmart</p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-inner">
+    <p class="closing-text reveal">
+      Aplicar a CLT corretamente não é uma questão de sorte.<br/>
+      É uma questão de <em>método.</em>
+    </p>
+    <p class="closing-sub reveal">Tome decisões disciplinares com a segurança de quem conhece cada requisito, cada risco — e sabe exatamente como agir.</p>
+    <a href="https://pay.hotmart.com/A104937550W?off=tmjwar00&hotfeature=51" class="btn-main reveal" target="_blank" rel="noopener">Quero Acessar o Módulo Agora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color:var(--off)">CLT na Prática para Empresas</strong> · Rafael Carmezim Nassif<br/>Conteúdo educacional. Não constitui consultoria jurídica individual.</p>
+  <p>Checkout processado com segurança pela <a href="https://hotmart.com" target="_blank" rel="noopener">Hotmart</a></p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
