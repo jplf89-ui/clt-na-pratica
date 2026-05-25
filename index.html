@@ -536,7 +536,7 @@
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-left { padding: 120px 6% 50px; }
       .hero-left::after { display: none; }
-      .hero-right { height: 380px; order: -1; margin-top: 70px; }
+      .hero-right { height: 380px; }
       .hero-right img { object-position: top center; }
       .hero-deco { display: none; }
       .problem-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -547,8 +547,11 @@
       .learn-visual-badge { bottom: -10px; right: 0; }
       .cta-mid { grid-template-columns: 1fr; }
       .bio-inner { grid-template-columns: 1fr; }
-      .bio-photo { max-width: 280px; margin: 0 auto 40px; }
+      .bio-photo { max-width: 100%; width: 100%; margin: 0 0 40px; border-radius: 0; }
+      .bio-photo img { border-radius: 0; width: 100%; }
       .bio-photo-frame { display: none; }
+      .learn-visual::before { display: none; }
+      .learn-visual-frame { display: none; }
       .access { grid-template-columns: 1fr; }
       .bio-cred { display: block; padding-left: 20px; }
       .bio-cred strong { display: inline; }
