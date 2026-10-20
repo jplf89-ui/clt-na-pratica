@@ -1,0 +1,736 @@
+<title>Guia da Nova Jornada</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── Layout: single-column editorial reader, dark-first, PDF-viewer toggle ── */
+:root {
+  --bg:       #0b1018;
+  --bg-mid:   #111926;
+  --bg-soft:  #192030;
+  --fg:       #e8e4d8;
+  --fg-dim:   rgba(232,228,216,.52);
+  --gold:     #b8943a;
+  --gold-lt:  #d4ab52;
+  --gold-glow:rgba(184,148,58,.14);
+  --line:     rgba(184,148,58,.16);
+  --muted:    #5f7088;
+  --red:      #c0392b;
+  --r-dim:    rgba(192,57,43,.12);
+
+  --display:  'Cormorant Garamond', Georgia, serif;
+  --body:     'Outfit', system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+/* light-mode overrides */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:       #f5f1e8;
+    --bg-mid:   #ede8db;
+    --bg-soft:  #e5e0d2;
+    --fg:       #0b1018;
+    --fg-dim:   rgba(11,16,24,.52);
+    --gold:     #8a6c22;
+    --gold-lt:  #a07e2a;
+    --gold-glow:rgba(138,108,34,.12);
+    --line:     rgba(138,108,34,.18);
+    --muted:    #7a8799;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:       #f5f1e8;
+  --bg-mid:   #ede8db;
+  --bg-soft:  #e5e0d2;
+  --fg:       #0b1018;
+  --fg-dim:   rgba(11,16,24,.52);
+  --gold:     #8a6c22;
+  --gold-lt:  #a07e2a;
+  --gold-glow:rgba(138,108,34,.12);
+  --line:     rgba(138,108,34,.18);
+  --muted:    #7a8799;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+
+/* grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── GATE (choose your path) ── */
+#gate {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-block: 80px;
+  position: relative;
+}
+
+/* subtle grid lines */
+#gate::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
+  pointer-events: none;
+  opacity: .5;
+}
+
+.gate-inner { position: relative; max-width: 560px; }
+
+.gate-kicker {
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.gate-kicker::before, .gate-kicker::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--line);
+}
+
+.gate-title {
+  font-family: var(--display);
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.12;
+  text-wrap: balance;
+  margin-bottom: 20px;
+}
+.gate-title em { font-style: italic; color: var(--gold); }
+
+.gate-sub {
+  font-size: .92rem;
+  font-weight: 300;
+  color: var(--fg-dim);
+  line-height: 1.75;
+  margin-bottom: 52px;
+}
+.gate-sub strong { color: var(--fg); font-weight: 500; }
+
+/* choice buttons */
+.gate-choices {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--body);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  padding: 15px 28px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all .22s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.btn-choice.primary {
+  background: var(--gold);
+  color: #0b1018;
+}
+.btn-choice.primary:hover {
+  background: var(--gold-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--gold-glow);
+}
+
+.btn-choice.secondary {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--line);
+}
+.btn-choice.secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-glow);
+}
+
+.btn-icon {
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+}
+
+.gate-note {
+  margin-top: 20px;
+  font-size: .7rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.gate-note::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+/* ── DIVIDER LINE ── */
+.section-rule {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ── READER ── */
+#reader {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-block: 80px;
+}
+
+/* urgency strip */
+.urgency {
+  background: var(--r-dim);
+  border: 1px solid rgba(192,57,43,.22);
+  border-left: 3px solid var(--red);
+  border-radius: 2px;
+  padding: 14px 20px;
+  font-size: .8rem;
+  line-height: 1.6;
+  color: var(--fg-dim);
+  margin-bottom: 60px;
+}
+.urgency strong { color: #e05c4e; }
+
+/* chapter label */
+.ch-label {
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ch-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.ch-title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.18;
+  text-wrap: balance;
+  margin-bottom: 20px;
+}
+
+.ch-body {
+  font-size: .93rem;
+  font-weight: 300;
+  color: var(--fg-dim);
+  line-height: 1.82;
+  margin-bottom: 28px;
+}
+.ch-body strong { color: var(--fg); font-weight: 500; }
+
+/* chapter block */
+.chapter { margin-bottom: 72px; }
+
+/* table */
+.tbl-wrap { overflow-x: auto; margin-bottom: 28px; border: 1px solid var(--line); border-radius: 3px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+thead tr { background: var(--bg-soft); }
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--line);
+}
+tbody tr { border-bottom: 1px solid var(--line); transition: background .12s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--bg-mid); }
+td { padding: 14px 16px; color: var(--fg-dim); vertical-align: top; line-height: 1.55; }
+td:first-child { color: var(--fg); font-weight: 500; white-space: nowrap; }
+tr.urgent td { color: var(--fg-dim); }
+tr.urgent td:first-child { color: #e05c4e; }
+.badge-urgent {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #e05c4e;
+  background: var(--r-dim);
+  border: 1px solid rgba(192,57,43,.25);
+  padding: 2px 7px;
+  border-radius: 2px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* bullet list */
+.guide-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.guide-list li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: .88rem;
+  line-height: 1.65;
+  color: var(--fg-dim);
+}
+.guide-list li::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  margin-top: .5em;
+}
+.guide-list li strong { color: var(--fg); font-weight: 500; }
+
+/* note italic */
+.note-italic {
+  font-size: .78rem;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.6;
+  padding-left: 14px;
+  border-left: 2px solid var(--line);
+  margin-bottom: 28px;
+}
+
+/* numbered checklist */
+.checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.checklist li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--bg-mid);
+  border: 1px solid var(--line);
+  padding: 16px 18px;
+  border-radius: 2px;
+  font-size: .87rem;
+  line-height: 1.65;
+  color: var(--fg-dim);
+  transition: border-color .15s;
+}
+.checklist li:hover { border-color: rgba(184,148,58,.32); }
+.ch-n {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 1px;
+}
+.checklist li strong { color: var(--fg); font-weight: 600; display: block; margin-bottom: 2px; }
+
+/* big quote outro */
+.outro {
+  padding: 56px 48px;
+  background: var(--bg-mid);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 72px;
+}
+.outro::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.outro-quote {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--gold-lt);
+  margin-bottom: 20px;
+}
+.outro-attr {
+  font-size: .75rem;
+  color: var(--muted);
+  letter-spacing: .06em;
+}
+
+/* course banner */
+.course-banner {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 40px 40px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 72px;
+}
+.course-banner h3 {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.22;
+  margin-bottom: 8px;
+}
+.course-banner h3 em { font-style: italic; color: var(--gold); }
+.course-banner p {
+  font-size: .82rem;
+  color: var(--fg-dim);
+  line-height: 1.65;
+  max-width: 440px;
+}
+
+/* author strip */
+.author-strip {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+.author-strip img {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.author-name {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.author-role { font-size: .78rem; color: var(--fg-dim); line-height: 1.5; }
+
+/* disclaimer */
+.disclaimer {
+  font-size: .7rem;
+  color: var(--muted);
+  line-height: 1.7;
+  text-align: center;
+  padding-block: 32px;
+  border-top: 1px solid var(--line);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  #gate { padding-block: 60px 48px; }
+  .gate-choices { flex-direction: column; align-items: stretch; }
+  .btn-choice { justify-content: center; }
+  #reader { padding-block: 48px; }
+  .outro { padding: 36px 24px; }
+  .course-banner { grid-template-columns: 1fr; }
+  .course-banner .btn-choice { width: 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<!-- ══ GATE ══════════════════════════════════════════════════ -->
+<section id="gate">
+  <div class="gate-inner">
+    <p class="gate-kicker">CLT na Prática · Para Empresas</p>
+
+    <h1 class="gate-title">
+      Guia da Nova<br><em>Jornada de Trabalho</em>
+    </h1>
+
+    <p class="gate-sub">
+      A <strong>Emenda Constitucional nº 141</strong> foi aprovada por 75 votos a 1.<br>
+      Fim da escala 6×1. O primeiro prazo é daqui a 60 dias.
+    </p>
+
+    <div class="gate-choices">
+      <a href="guia5x2.pdf" class="btn-choice primary" download="Guia_Nova_Jornada_CLT_na_Pratica.pdf">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Baixar o PDF
+      </a>
+      <a href="#reader" class="btn-choice secondary">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        Ler aqui
+      </a>
+    </div>
+
+    <p class="gate-note">Gratuito · Publicado em 16/10/2026 · Rafael Nassif</p>
+  </div>
+</section>
+
+<div class="section-rule"></div>
+
+<!-- ══ READER ═════════════════════════════════════════════════ -->
+<main id="reader">
+
+  <div class="urgency">
+    <strong>⚡ Prazo crítico:</strong> Em 16/12/2026 — 60 dias após a promulgação — as folgas semanais passam a ser exigíveis e cláusulas coletivas incompatíveis perdem eficácia. Empresas sem adequação acumulam passivo trabalhista a partir dessa data.
+  </div>
+
+  <!-- cap 1 -->
+  <div class="chapter">
+    <p class="ch-label">1 · O que foi aprovado</p>
+    <h2 class="ch-title">A maior alteração da jornada de trabalho dos últimos anos</h2>
+    <p class="ch-body">
+      A Emenda Constitucional nº 141, originada da PEC 221/2019, foi aprovada pelo Senado Federal por <strong>75 votos a 1</strong>, em dois turnos, mantido o texto vindo da Câmara dos Deputados. Promulgada e publicada em 16/10/2026, tem efeitos diretos sobre escalas, folha de pagamento e instrumentos coletivos.
+    </p>
+    <ul class="guide-list">
+      <li><span>Fim da escala 6×1: o trabalhador passa a ter <strong>5 dias de trabalho e 2 dias de descanso</strong> por semana.</span></li>
+      <li><span>Jornada máxima semanal <strong>reduzida de 44h para 40h</strong>, mantido o teto de 8 horas diárias.</span></li>
+      <li><span><strong>Vedada qualquer redução de salário</strong> — nominal, proporcional ou de qualquer outra espécie, inclusive nos pisos.</span></li>
+    </ul>
+  </div>
+
+  <!-- cap 2 -->
+  <div class="chapter">
+    <p class="ch-label">2 · Cronograma da transição</p>
+    <h2 class="ch-title">As datas que sua empresa precisa ter no calendário</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Marco</th>
+            <th>Data</th>
+            <th>O que acontece</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Publicação</td>
+            <td>16/10/2026</td>
+            <td>Dispositivos gerais entram em vigor.</td>
+          </tr>
+          <tr class="urgent">
+            <td>Após 2 meses <span class="badge-urgent">⚡ urgente</span></td>
+            <td>16/12/2026</td>
+            <td>Jornada cai para 42h semanais; 2 folgas valem; cláusulas coletivas incompatíveis perdem eficácia.</td>
+          </tr>
+          <tr>
+            <td>Período de 12 meses</td>
+            <td>16/12/2026 – 16/12/2027</td>
+            <td>Jornada permanece em 42 horas semanais.</td>
+          </tr>
+          <tr>
+            <td>Após 14 meses</td>
+            <td>16/12/2027</td>
+            <td>40 horas semanais em definitivo.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note-italic">O prazo mais urgente é o de 2 meses. Na transição, CCT ou ACT pode ampliar a jornada diária para distribuir a carga semanal.</p>
+  </div>
+
+  <!-- cap 3 -->
+  <div class="chapter">
+    <p class="ch-label">3 · As duas folgas semanais</p>
+    <h2 class="ch-title">Como funcionam na prática</h2>
+    <ul class="guide-list">
+      <li><span><strong>Dois dias de descanso semanal remunerado</strong>, um deles preferencialmente aos domingos.</span></li>
+      <li><span>As folgas <strong>não precisam ser consecutivas.</strong></span></li>
+      <li><span>Por força de ACT e CCT, as folgas podem ser compensadas entre semanas (ex.: 1 folga numa semana e 3 na seguinte), desde que respeitado o mês-calendário, mantida a média de 2 folgas por semana e garantida ao menos 1 folga por semana.</span></li>
+      <li><span>A ausência injustificada poderá repercutir na remuneração dos dois DSRs da semana.</span></li>
+    </ul>
+  </div>
+
+  <!-- cap 4 -->
+  <div class="chapter">
+    <p class="ch-label">4 · As duas horas excedentes (42h → 40h)</p>
+    <h2 class="ch-title">Durante o período de transição</h2>
+    <ul class="guide-list">
+      <li><span>As 2 horas que ainda excedem as 40 (as tais 42) <strong>poderão ser distribuídas ao longo da semana.</strong></span></li>
+      <li><span>Essa distribuição só ocorre com previsão na <strong>ACT ou na CCT</strong> (art. 7º).</span></li>
+      <li><span>A queda para 42 horas vale para todos, com ou sem acordo coletivo. O que depende de norma coletiva é apenas a distribuição do excedente.</span></li>
+    </ul>
+  </div>
+
+  <!-- cap 5 -->
+  <div class="chapter">
+    <p class="ch-label">5 · Impacto no DSR</p>
+    <h2 class="ch-title">Descanso Semanal Remunerado por tipo de contrato</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Perfil</th><th>Como incide o DSR</th><th>Impacto prático</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mensalista (salário fixo)</td>
+            <td>DSR já está embutido no salário</td>
+            <td>Impacto diluído</td>
+          </tr>
+          <tr>
+            <td>Horista</td>
+            <td>DSR é calculado sobre as horas trabalhadas</td>
+            <td>Adaptação mais sensível</td>
+          </tr>
+          <tr>
+            <td>Comissionista e remuneração variável</td>
+            <td>DSR incide sobre as parcelas variáveis</td>
+            <td>Adaptação mais sensível — a fração do DSR mais que dobra</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note-italic">A fração do DSR varia conforme o calendário do mês.</p>
+  </div>
+
+  <!-- cap 6 -->
+  <div class="chapter">
+    <p class="ch-label">6 · Quem fica fora da nova regra</p>
+    <h2 class="ch-title">Exceções previstas na emenda</h2>
+    <ul class="guide-list">
+      <li><span>Empregados com <strong>diploma de nível superior</strong> e salário igual ou superior a 2,5 vezes o teto do INSS (atualmente cerca de R$ 21.188,87) ficam fora do controle de jornada, salvo liberalidade do empregador ou previsão em acordo coletivo.</span></li>
+      <li><span>A exceção <strong>não alcança os empregados públicos</strong> da administração direta e indireta.</span></li>
+    </ul>
+  </div>
+
+  <!-- cap 7 -->
+  <div class="chapter">
+    <p class="ch-label">7 · Contratos públicos e micro e pequenas empresas</p>
+    <h2 class="ch-title">Regras específicas por porte e natureza</h2>
+    <ul class="guide-list">
+      <li><span>Contratos com a administração pública: as novas regras serão aplicadas após <strong>aditamento contratual</strong> para manutenção do equilíbrio econômico-financeiro, a ser formalizado no prazo máximo de 1 ano.</span></li>
+      <li><span>Micro e pequenas empresas e MEIs: uma futura lei complementar poderá criar medidas de adaptação, condicionadas à manutenção dos empregos.</span></li>
+    </ul>
+  </div>
+
+  <!-- cap 8 / checklist -->
+  <div class="chapter">
+    <p class="ch-label">8 · O que fazer agora</p>
+    <h2 class="ch-title">Checklist para empresas antes de 16 de dezembro</h2>
+    <ol class="checklist">
+      <li><span class="ch-n">1</span><div><strong>Mapear setores em escala 6×1</strong>Identificar onde a mudança impacta primeiro, por setor e função.</div></li>
+      <li><span class="ch-n">2</span><div><strong>Auditar acordos e convenções coletivas</strong>Jornada, escala, DSR, banco de horas e compensação — cláusulas incompatíveis perdem eficácia em 60 dias.</div></li>
+      <li><span class="ch-n">3</span><div><strong>Revisar escalas, banco de horas e folgas</strong>Adequar a operação às 2 folgas semanais obrigatórias.</div></li>
+      <li><span class="ch-n">4</span><div><strong>Simular a folha nos cenários de 44h, 42h e 40h</strong>Dimensionar o custo real antes de cada vigência.</div></li>
+      <li><span class="ch-n">5</span><div><strong>Buscar assessoria trabalhista especializada</strong>Reduzir risco de passivo e de autuação.</div></li>
+    </ol>
+  </div>
+
+  <!-- outro quote -->
+  <div class="outro">
+    <p class="outro-quote">"Quem se organizar agora sai na frente."</p>
+    <p class="outro-attr">Rafael Nassif · Advogado trabalhista e professor de Direito do Trabalho</p>
+  </div>
+
+  <!-- course banner — subtle, editorial -->
+  <div class="course-banner">
+    <div>
+      <h3>Quer ir além do guia?<br><em>CLT na Prática para Empresas.</em></h3>
+      <p>Formação completa em legislação trabalhista para gestores e empresários — da teoria ao contrato, da jornada à rescisão.</p>
+    </div>
+    <a href="https://pay.hotmart.com/A104937550W?off=tmjwar00&hotfeature=51" class="btn-choice primary" style="white-space:nowrap">
+      Conhecer o Curso
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- author -->
+  <div class="author-strip">
+    <img src="images/IMG-SESSAODOR1.png" alt="Rafael Carmezim Nassif">
+    <div>
+      <p class="author-name">Rafael Carmezim Nassif</p>
+      <p class="author-role">Advogado trabalhista · Professor de Direito do Trabalho · Membro da EMATRA IX<br>CLT na Prática — Para Empresas</p>
+    </div>
+  </div>
+
+</main>
+
+<p class="disclaimer">
+  Este material tem caráter exclusivamente informativo.<br>
+  As regras podem ser regulamentadas ou alteradas por legislação superveniente.<br>
+  © CLT na Prática — Para Empresas · <a href="/" style="color:var(--gold);text-decoration:none">cltnapraticaparaempresas.com.br</a>
+</p>
